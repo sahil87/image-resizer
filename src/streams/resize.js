@@ -11,7 +11,7 @@ module.exports = function () {
   return map( function(image, callback) {
 
     // do nothing if there is an error on the image object
-    if (image.isError()){
+    if (image.isError() || !(parseInt(image.modifiers.width) && parseInt(image.modifiers.height))){
       return callback(null, image);
     }
 
@@ -89,12 +89,12 @@ module.exports = function () {
         r.resize(
             d.resize.width,
             d.resize.height
-          ).extract(
-            d.crop.y,
-            d.crop.x,
-            d.crop.width,
-            d.crop.height
-          );
+          ).extract({
+            top: d.crop.y,
+            left: d.crop.x,
+            width: d.crop.width,
+            height: d.crop.height
+          });
 
         r.toBuffer(resizeResponse);
       });
@@ -120,12 +120,12 @@ module.exports = function () {
           r.resize(
               d.resize.width,
               d.resize.height
-            ).extract(
-              d.crop.y,
-              d.crop.x,
-              d.crop.width,
-              d.crop.height
-            );
+            ).extract({
+              top: d.crop.y,
+              left: d.crop.x,
+              width: d.crop.width,
+              height: d.crop.height
+            });
           break;
         case 'cut':
           wd = image.modifiers.width || image.modifiers.height;
@@ -141,8 +141,10 @@ module.exports = function () {
           r.extract(d.y, d.x, wd, ht);
           break;
         case 'scale':
-          // TODO: deal with scale
-          r.resize(image.modifiers.width, image.modifiers.height);
+          wd = image.modifiers.width || image.modifiers.height;
+          ht = image.modifiers.height || image.modifiers.width;
+
+          r.resize(wd, ht);
           break;
         case 'pad':
           r.resize(

@@ -191,8 +191,13 @@ Object.defineProperty(Image.prototype, 'contents', {
     this._contents = data;
 
     if (this.isBuffer()) {
-      this.format = imgType(data).ext;
-      this.isFormatValid();
+      try{
+        this.format = imgType(data).ext;
+        this.isFormatValid();
+      }
+      catch(err){
+        console.log('Error!'+err.message);
+      }
     }
   }
 });
