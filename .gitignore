@@ -6,3 +6,4 @@ node_modules/
 npm-debug.log
 named_modifiers.json
 test/sample_images/dont-version*
+.idea/
