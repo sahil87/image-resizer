@@ -19,4 +19,4 @@ ENV PORT 80
 WORKDIR /src
 
 EXPOSE 80 443
-CMD ["/usr/bin/supervisord", "-n", "-c",  "/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-n", "-c",  "/src/supervisord.conf"]
